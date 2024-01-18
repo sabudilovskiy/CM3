@@ -62,11 +62,8 @@ struct ParseError{
 
 };
 
-// do a := 0x5 while ( a <= 0x4 ) ;
-// do a := 0x5 ) ;
-// do a := 6 while ( a <= 5 ) ;
-int main() try {
-    std::string expr = InputExpr();
+void ParseExpr(const std::string& expr){
+    try{
     auto lexs = ParseToLexs(expr);
     PrintLexs(lexs);
     auto tokens = CreateParser().parse(lexs);
@@ -83,4 +80,16 @@ catch (const ParseError&){
 }
 catch (const ASTError &e) {
     std::cerr << "AST error: " << e.what() << std::endl;
+}
+}
+
+// do a := 0x5 while ( a <= 0x4 ) ;
+// do a := 0x5 ) ;
+// do a := 6 while ( a <= 5 ) ;
+int main() {
+    std::string expr = InputExpr();
+    while (!expr.empty()){
+        ParseExpr(expr);
+        expr = InputExpr();
+    }
 }
